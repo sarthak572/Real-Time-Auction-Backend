@@ -1,0 +1,13 @@
+baseline: rss=106MB heap=33MB
+sockets=1000 rss=94MB heap=28MB  (~-12.3 KB/socket) loopLagP99=101ms
+sockets=2500 rss=126MB heap=40MB  (~8.2 KB/socket) loopLagP99=91.9ms
+sockets=5000 rss=148MB heap=58MB  (~8.6 KB/socket) loopLagP99=54ms
+bidding: 10/s for 20s over 1 auction(s), ~5000 viewers each
+
+=== RESULT ===
+bids: accepted=95 rejected=0 errors=0  bid POST p50=130.4ms p95=339.7ms
+deliveries: 475000 of 475000 expected (100.00%)  throughput ~23750/s
+delivery latency ms: p50=181.2 p95=311.2 p99=547.1 max=710.2
+server: rss=198MB heap=100MB loopLagP99=208.1ms maxLag=216.1ms pool.waiting=0
+realtime: {"sockets":5000,"sent":480000,"published":95,"droppedSlow":0,"heartbeatKilled":0,"bufferedBytes":0}
+client: connectErrors=0 unexpectedCloses=0

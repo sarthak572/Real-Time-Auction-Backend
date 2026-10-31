@@ -1,0 +1,51 @@
+profile length: 28.5 s of samples; busy (not idle): 91.3%
+
+=== where the time goes, by category (share of ALL samples) ===
+ 32.0% native (no source)
+ 11.2% node core: internal
+  8.7% idle (waiting for work)
+  8.0% lib: ioredis
+  6.2% lib: fastify
+  5.9% native/other (program)
+  2.8% our code: modules/auctions.js
+  2.3% lib: prom-client
+  2.1% node core: _http_server
+  2.0% lib: secure-json-parse
+  1.8% garbage collection
+  1.8% node core: inspector
+  1.8% node core: events
+  1.6% node core: _http_outgoing
+  1.5% our code: errors.js
+  1.5% node core: _http_common
+  1.2% lib: pino
+  1.2% node core: _http_incoming
+
+=== top 28 functions by self time ===
+ 18.0% writeUtf8String  :0
+  9.7% writev  :0
+  8.7% (idle)  :0
+  5.9% (program)  :0
+  2.8% (anonymous)  dist/modules/auctions.js:44
+  2.2% Command  node_modules/ioredis/built/Command.js:63
+  2.0% _parse  node_modules/secure-json-parse/index.js:17
+  1.8% (garbage collector)  :0
+  1.8% post  node:inspector:118
+  1.8% runMicrotasks  :0
+  1.5% serialize  node_modules/fastify/lib/reply.js:1085
+  1.5% AppError  dist/errors.js:5
+  1.5% (anonymous)  node_modules/prom-client/lib/histogram.js:232
+  1.4% deprecate  node:internal/util:161
+  1.2% sendCommand  node_modules/ioredis/built/Redis.js:354
+  1.1% execute  node_modules/ioredis/built/Script.js:37
+  1.0% writevGeneric  node:internal/stream_base_commons:121
+  0.9% parserOnHeadersComplete  node:_http_common:71
+  0.9% createWriteWrap  node:internal/stream_base_commons:108
+  0.8% publishBid  dist/realtime/hub.js:90
+  0.8% Socket._writeGeneric  node:net:935
+  0.8% stringify  node_modules/pino/lib/tools.js:375
+  0.7% parserOnIncoming  node:_http_server:1055
+  0.7% processTicksAndRejections  node:internal/process/task_queues:72
+  0.6% placeBidInRedis  dist/state.js:98
+  0.5% handleWriteReq  node:internal/stream_base_commons:46
+  0.5% (anonymous)  :0
+  0.5% (anonymous)  node:events:342

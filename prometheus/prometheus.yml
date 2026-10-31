@@ -1,0 +1,22 @@
+# Prometheus: pulls /metrics from every process every 5 seconds.
+# Targets use the `apihost` alias (the Windows host, as seen from inside Docker); see docker-compose.yml.
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: api            # the two API instances behind nginx (scripts/cluster.sh)
+    static_configs:
+      - targets: ['apihost:3001', 'apihost:3002']
+
+  - job_name: api-dev        # a single `npm run dev` instance, when nginx is not running
+    static_configs:
+      - targets: ['apihost:3010']
+
+  - job_name: flusher        # the process that saves bids from Redis to Postgres
+    static_configs:
+      - targets: ['apihost:9101']
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']

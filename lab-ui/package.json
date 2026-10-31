@@ -1,0 +1,24 @@
+{
+  "name": "auction-lab-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Button-driven load and failure scenarios for the auction backend, to watch in Grafana",
+  "scripts": {
+    "build": "vite build",
+    "start": "node server/index.mjs",
+    "dev:ui": "vite",
+    "dev:server": "node --watch server/index.mjs",
+    "test:smoke": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "undici": "^6.21.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
+  }
+}

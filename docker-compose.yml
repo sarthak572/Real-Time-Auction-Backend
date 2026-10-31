@@ -1,0 +1,84 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: auction
+      POSTGRES_PASSWORD: auction
+      POSTGRES_DB: auction
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # CACHE Redis: may lose everything without harm. Caps memory and evicts least-recently-used keys.
+  redis:
+    image: redis:7
+    command: ["redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru", "--save", "", "--appendonly", "no"]
+    ports:
+      - "6379:6379"
+
+  # STATE Redis: holds live bid state and the stream of bids not yet written to Postgres.
+  # A lost key here is a lost, already-acknowledged bid, so it must never evict and must persist:
+  #   - noeviction: when full, writes fail loudly instead of silently dropping data
+  #   - AOF with fsync every second: a crash can lose at most ~1 s of writes (appendfsync always = none, but slower)
+  redis-state:
+    image: redis:7
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec", "--maxmemory", "512mb", "--maxmemory-policy", "noeviction", "--save", ""]
+    ports:
+      - "6380:6379"
+    volumes:
+      - redisstate:/data
+
+  # Load balancer: clients talk to http://localhost:3000, nginx spreads requests over the API instances on 3001 and 3002.
+  # (Start the instances with scripts/cluster.sh. Do not also run a single instance on port 3000.)
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    extra_hosts:
+      # IPv4 only on purpose: "host-gateway" and host.docker.internal also add an IPv6 address the container cannot
+      # route to, so nginx counted failed attempts and briefly marked healthy instances down (HTTP 502).
+      # 192.168.65.254 is Docker Desktop's address for the host; find yours with:
+      #   docker run --rm alpine getent hosts host.docker.internal
+      - "apihost:${API_HOST_IP:-192.168.65.254}"
+
+  # ---- Observability. Optional (uses memory): docker compose --profile observability up -d ----
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    profiles: ["observability"]
+    mem_limit: 256m
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=6h      # short on purpose: this is for learning, not for keeping history
+      - --storage.tsdb.retention.size=300MB
+    ports:
+      - "127.0.0.1:9090:9090"                 # only reachable from this computer
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    extra_hosts:
+      - "apihost:${API_HOST_IP:-192.168.65.254}"
+
+  grafana:
+    image: grafana/grafana-oss:11.3.0
+    profiles: ["observability"]
+    mem_limit: 320m
+    depends_on: [prometheus]
+    ports:
+      - "127.0.0.1:3030:3000"                 # http://localhost:3030 (only from this computer)
+    environment:
+      # Local learning setup: no login. Never publish this port to the internet.
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/auction.json
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+volumes:
+  pgdata:
+  redisstate:

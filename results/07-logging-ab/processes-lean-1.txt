@@ -1,0 +1,6 @@
+port 3001: {"status":"ok"}
+port 3002: down
+
+port 3000: {"status":"ok"}
+dist/worker.js 75 MB
+dist/server.js 153 MB

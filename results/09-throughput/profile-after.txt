@@ -1,0 +1,37 @@
+profile length: 28.2 s of samples; busy (not idle): 66.3%
+
+=== where the time goes, by category (share of ALL samples) ===
+ 33.7% idle (waiting for work)
+ 15.7% native (no source)
+  9.6% node core: internal
+  7.5% lib: ioredis
+  6.5% lib: fastify
+  5.8% native/other (program)
+  2.7% our code: state.js
+  2.1% lib: prom-client
+  2.0% garbage collection
+  1.6% node core: _http_server
+  1.4% node core: _http_outgoing
+  1.4% our code: modules/auctions.js
+  1.1% lib: secure-json-parse
+  1.1% node core: events
+  1.0% node core: net
+  0.9% node core: _http_common
+  0.8% lib: zod
+  0.8% node core: async_hooks
+
+=== top 14 functions by self time ===
+ 33.7% (idle)  :0
+  8.0% writev  :0
+  5.8% (program)  :0
+  4.2% writeUtf8String  :0
+  2.7% serialize  node_modules/fastify/lib/reply.js:1085
+  2.1% deprecate  node:internal/util:161
+  2.0% (garbage collector)  :0
+  1.7% runMicrotasks  :0
+  1.4% run  dist/state.js:171
+  1.4% (anonymous)  dist/modules/auctions.js:44
+  1.2% (anonymous)  node_modules/prom-client/lib/histogram.js:232
+  1.1% Pipeline  node_modules/ioredis/built/Pipeline.js:28
+  1.1% _parse  node_modules/secure-json-parse/index.js:17
+  1.0% writevGeneric  node:internal/stream_base_commons:121

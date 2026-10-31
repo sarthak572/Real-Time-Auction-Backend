@@ -1,0 +1,20 @@
+[  8.7s] traffic started
+[ 13.7s] HARD-KILL flusher (SIGKILL). acked so far: 1489
+[ 16.8s] restart flusher. acked so far: 2838
+[ 20.9s] HARD-KILL state Redis (docker kill). acked so far: 4919
+[ 24.6s] restart state Redis
+[ 30.5s] traffic stopped. acked: 7637  responses: {"201":7637,"409":20,"503":2253}
+[ 31.0s] stream backlog after wait: 0
+
+=== DRILL RESULT ===
+acknowledged bids (HTTP 201):            7637
+saved in Postgres:                       7637
+acknowledged but MISSING from Postgres:  0
+acknowledged but different content:      0
+duplicate (auction, seq) rows:           0
+saved but never acknowledged:            0  (e.g. Redis killed after applying, before replying: allowed)
+auctions with a gap in seq:              0
+auctions where bid_count != max seq:     0
+flusher conflict counter:                {"streamLength":0,"flusherAlive":true,"lastBatch":137,"lastLagMs":291,"maxLagMs":4709,"flushedTotal":7637,"failedTotal":0,"conflictTotal":0}
+
+PASS: no acknowledged bid was lost or duplicated

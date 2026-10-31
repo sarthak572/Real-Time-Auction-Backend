@@ -1,0 +1,29 @@
+
+--- round 1 ---
+PASS  A: 100 identical bids from both instances: exactly one wins  (won 1, refused 99; requests came through api-3001 + api-3002)
+PASS  A: the winner was given seq 1
+PASS  A: Postgres holds exactly one bid for it  (1)
+PASS  B: 200 different bids from both instances: no errors  (accepted 6, refused 194)
+PASS  B: sequence numbers are 1..N with no gaps or repeats  (6 saved)
+PASS  B: every accepted bid beat the one before it (strictly rising)
+PASS  B: the highest bid (300) is the final price, whatever order they arrived in  (price 300)
+
+--- round 2 ---
+PASS  A: 100 identical bids from both instances: exactly one wins  (won 1, refused 99; requests came through api-3001 + api-3002)
+PASS  A: the winner was given seq 1
+PASS  A: Postgres holds exactly one bid for it  (1)
+PASS  B: 200 different bids from both instances: no errors  (accepted 6, refused 194)
+PASS  B: sequence numbers are 1..N with no gaps or repeats  (6 saved)
+PASS  B: every accepted bid beat the one before it (strictly rising)
+PASS  B: the highest bid (300) is the final price, whatever order they arrived in  (price 300)
+
+--- round 3 ---
+PASS  A: 100 identical bids from both instances: exactly one wins  (won 1, refused 99; requests came through api-3001 + api-3002)
+PASS  A: the winner was given seq 1
+PASS  A: Postgres holds exactly one bid for it  (1)
+PASS  B: 200 different bids from both instances: no errors  (accepted 7, refused 193)
+PASS  B: sequence numbers are 1..N with no gaps or repeats  (7 saved)
+PASS  B: every accepted bid beat the one before it (strictly rising)
+PASS  B: the highest bid (300) is the final price, whatever order they arrived in  (price 300)
+
+ALL CHECKS PASSED

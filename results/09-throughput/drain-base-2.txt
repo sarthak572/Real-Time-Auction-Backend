@@ -1,0 +1,1 @@
+drain_seconds_after_k6=0 final_stream_length=0

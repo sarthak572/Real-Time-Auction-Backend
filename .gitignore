@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.cluster
+.claude/settings.local.json
+*.log
+*.log.gz
+*.gz
+*.cpuprofile
+*.heapsnapshot
+results/**/discarded/

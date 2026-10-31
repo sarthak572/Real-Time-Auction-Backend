@@ -1,0 +1,13 @@
+PASS  requests through nginx are served by both instances  {"api-3001":20,"api-3002":20}
+PASS  nginx request id reaches the API (32 hex chars)  (4ed6caefc1ff8bf8ca7d8eed24bc4f9b)
+PASS  30 WebSockets through nginx are split across both instances  (3001: 15, 3002: 15)
+PASS  40 bids were handled by both instances  {"api-3002":20,"api-3001":20}
+PASS  all 30 viewers got bids 1..40 in order, whichever instance they or the bid used  (30/30)
+      (killed instance on :3002 during traffic)
+PASS  bids kept flowing through nginx after one instance died  {"201":143}
+PASS  no bid failed with a server error or client error during failover
+PASS  viewers connected to the dead instance were disconnected  (15 dropped)
+PASS  a dropped viewer reconnects through nginx and catches up  (snapshot seq 183, latest seen by survivors 183, replayed 0)
+PASS  restarted instance receives traffic again  {"api-3002":40}
+
+ALL CHECKS PASSED
